@@ -24,4 +24,8 @@ Select the expiration date and it will be asociated to your content.
 You can remove the expiration date by selecting a passed date.. By default, no tag has expiration date set.
 
 ##Changelog
-0.1 - Initial version
+0.1.1
+Updated to WordPress 4.2 version.
+
+0.1
+Initial version
