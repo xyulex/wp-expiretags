@@ -16,8 +16,9 @@
 */
 /*
 Plugin Name: Expire Tags
-Description: This plugin allows to easily expire tags
-Version: 0.1
+Description: Expire tags allows you to add a date to a tag to expire it.  When the date is reached the tag is no longer associated with the post, but the tag is not removed and the post is not deleted. 
+This could be used to display a custom query by tag of important issues or upcoming events.
+Version: 0.1.1
 Author: Raúl Martínez
 License: GPL2
 */
@@ -75,7 +76,7 @@ function expiretags_options() {
             showOn: 'button',
             buttonImage: '". $pluginsUrl ."',
             buttonImageOnly: true,
-            buttonText: 'Selectaa',
+            buttonText: '',
             dateFormat: 'yy-mm-dd'
         });
     });</script>");    
