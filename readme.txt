@@ -1,11 +1,12 @@
 === Expire tags ===
 Contributors: xyulex
-Tags: expire,expiration,tag,tags,plugin,post
+Tags: easy,expire,expiration,expirate,tag,tags,plugin,post,etiqueta,etiquetas
 Requires at least: 3.0
-Stable tag: trunk
+Stable tag: 0.3
 Tested up to: 4.2.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=xyulex plugins&item_name=ExpireTagsDonation&no_note=0&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHostedGuest
 
 Make tags expire on a certain date.
 
@@ -21,9 +22,17 @@ Make tags expire on a certain date.
 == Using the plugin ==
 1. Go to to 'Expire tags' submenu in 'Settings' and you will find the tag list.
 1. Select the expiration date and it will be asociated to your content.
-1. You can remove the expiration date by selecting a passed date.. By default, no tag has expiration date set.
+1. You can remove the expiration clicking on the 'Expire' button.
+
+== Screenshots ==
+1. General view with the two available icons (Assign expiration date - Delete expiration date)
+
 
 == Changelog ==
+0.3
+General code refactor.
+Added button for expire tags manually.
+
 0.2
 Added pagination to tag list.
 

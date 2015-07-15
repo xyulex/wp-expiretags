@@ -1,26 +1,13 @@
 <?php
-/*  Copyright 2015 Raúl Martínez
-
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License, version 2, as 
-    published by the Free Software Foundation.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*/
 /*
 Plugin Name: Expire Tags
 Description: Expire tags allows you to add a date to a tag to expire it.  When the date is reached the tag is no longer associated with the post, but the tag is not removed and the post is not deleted. 
 This could be used to display a custom query by tag of important issues or upcoming events.
-Version: 0.2
-Author: Raúl Martínez
-License: GPL2
+Version: 0.3
+Author:      xyulex
+Author URI:  https://profiles.wordpress.org/xyulex/
+License:     GPLv2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
 */
 
 defined( 'ABSPATH' ) or die( 'No direct access permitted!' );
@@ -69,21 +56,11 @@ function expiretags_install() {
 
 function expiretags_options() {
     global $wpdb;
-    $pluginsUrl = plugins_url('assets/calendar.gif', __FILE__ );
-
-    echo( "<script>jQuery(document).ready(function(){
-        jQuery( '.datepicker' ).datepicker({
-            showOn: 'button',
-            buttonImage: '". $pluginsUrl ."',
-            buttonImageOnly: true,
-            buttonText: '',
-            dateFormat: 'yy-mm-dd'
-        });
-        });</script>");
-
     wp_enqueue_script( 'jquery-ui-datepicker' );
-    wp_enqueue_style( 'jquery-style', plugins_url( '/css/jquery-ui.css', __FILE__ ) );
+    wp_enqueue_style( 'expiretags-styles', plugins_url( '/css/style.css', __FILE__ ) );
+    wp_enqueue_script( 'expiretags-scripts', plugins_url('/js/functions.js', __FILE__));    
 
+   
     if ( !current_user_can( 'manage_options' ) )  {
         wp_die( __('nopermissions','expiretags') );
     }
@@ -104,7 +81,7 @@ function expiretags_options() {
     $posts = $wpdb->get_results( $sql . " LIMIT ${offset}, ${items_per_page}" );
 
     if ($posts) {
-        echo "<form name='expiretags' action='' method='post'>";
+        echo "<form name='expiretags' action='' method='post' id='expiretags2'>";
         echo "<table>";
         echo "<th>".__('tagname', 'expiretags')."</th><th>".__('tagexpirationdate', 'expiretags')."</th>";
         foreach ($posts as $post) {
@@ -117,7 +94,7 @@ function expiretags_options() {
                 $expiration = $expirations[0]->expiration_datetime;
             }
 
-            echo('<tr><td>'.$post->name.'</td><td class="expire-tags-calendar"><input type="text" class="datepicker" id='.$post->term_id.' name='.$post->term_id.' value='.$expiration.'></td></tr>');
+            echo('<tr><td>'.$post->name.'</td><td class="expire-tags-calendar"><input type="text" class="datepicker" id='.$post->term_id.' name='.$post->term_id.' value='.$expiration.'></td><td><input type="submit" class="expire-btn" value="" data-name = "'.$post->name.'" data-id="' . $post->term_id . '"></td></tr>');
         }
         echo '<tr><td><input name="submit" id="submit" class="button button-primary" value="'.__('Save Changes').'"" type="submit"></td></tr>';
         echo("</form>");
