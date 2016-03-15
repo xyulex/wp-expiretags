@@ -1,11 +1,13 @@
 <?php
 /*
 Plugin Name: Expire Tags
+Text Domain: expire-tags
+Domain Path: /languages
+Author:      xyulex
+Author URI:  https://profiles.wordpress.org/xyulex/
 Description: Expire tags allows you to add a date to a tag to expire it.  When the date is reached the tag is no longer associated with the post, but the tag is not removed and the post is not deleted. 
 This could be used to display a custom query by tag of important issues or upcoming events.
 Version: 1.0
-Author:      xyulex
-Author URI:  https://profiles.wordpress.org/xyulex/
 License:     GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 */
@@ -27,11 +29,16 @@ add_action( 'expiretags_check', 'expiretags_expire' );
 
 function expiretags_init() {
     wp_register_script( 'expirejs', plugins_url().'/js/functions.js' );
-    wp_localize_script( 'expirejs', 'URLS', array( 'site_url' => get_option('siteurl'), 'plugins_url' => plugins_url().'/expire-tags') );
+    $delete_message = __('Remove the expiration date for this tag?','expire-tags');
+    wp_localize_script(
+        'expirejs', 'ET',
+        array('plugins_url'     => plugins_url().'/expire-tags',
+             'delete_confirm'   => $delete_message
+        ));
     wp_enqueue_script( 'expirejs' );
     expiretags_save();
     expiretags_expire();
-    load_plugin_textdomain('expiretags', FALSE, dirname(plugin_basename(__FILE__)).'/languages/');
+    load_plugin_textdomain('expire-tags', FALSE, dirname(plugin_basename(__FILE__)).'/languages/');
 }
 
 function expiretags_menu() {
@@ -63,7 +70,7 @@ function expiretags_options() {
     wp_enqueue_script( 'expiretags-scripts', plugins_url('/js/functions.js', __FILE__));
 
     if ( !current_user_can( 'manage_options' ) )  {
-        wp_die( __('nopermissions','expiretags') );
+        wp_die( __('nopermissions','expire-tags') );
     }
 
     echo '<div class="wrap">';
@@ -82,9 +89,10 @@ function expiretags_options() {
     $posts = $wpdb->get_results( $sql . " LIMIT ${offset}, ${items_per_page}" );
 
     if ($posts) {
-        echo "<form name='expiretags' action='' method='post' id='expiretags2'>";
-        echo "<table>";
-        echo "<th>".__('tagname', 'expiretags')."</th><th>".__('tagexpirationdate', 'expiretags')."</th>";
+        echo
+        "<form name='expiretags' action='' method='post' id='expiretags2'>".
+        "<table>".
+        "<th>".__('tagname', 'expire-tags')."</th><th>".__('tagexpirationdate', 'expire-tags')."</th>";
         foreach ($posts as $post) {
             $expirationsql = "SELECT * from ".$wpdb->prefix."expiretags WHERE term_id = ".$post->term_id;
 
@@ -97,11 +105,11 @@ function expiretags_options() {
 
             echo('<tr><td>'.$post->name.'</td><td class="expire-tags-calendar"><input type="text" class="datepicker" id='.$post->term_id.' name='.$post->term_id.' value='.$expiration.'></td><td><input type="submit" class="expire-btn" value="" data-name = "'.$post->name.'" data-id="' . $post->term_id . '"></td></tr>');
         }
-        echo '<tr><td><input name="submit" id="submit" class="button button-primary" value="'.__('Save Changes').'"" type="submit"></td></tr>';
-        echo("</form>");
+        echo '<tr><td><input name="submit" id="submit" class="button button-primary" value="'.__('Save Changes','expire-tags').'"" type="submit"></td></tr>';
+        echo '</form>';
 
     } else {
-        wp_die( __('notags', 'expiretags'));
+        wp_die( __('notags', 'expire-tags'));
     }
 
     $paginate_links = paginate_links( array(
