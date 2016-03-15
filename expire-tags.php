@@ -28,11 +28,11 @@ if ( ! wp_next_scheduled( 'expiretags_checkexpirations' ) ) {
 add_action( 'expiretags_check', 'expiretags_expire' );
 
 function expiretags_init() {
-    wp_register_script( 'expirejs', plugins_url().'/js/functions.js' );
+    wp_register_script( 'expirejs', plugins_url().'/expire-tags/js/functions.js' );
     $delete_message = __('Remove the expiration date for this tag?','expire-tags');
     wp_localize_script(
         'expirejs', 'ET',
-        array('plugins_url'     => plugins_url().'/expire-tags',
+        array('plugins_url'     => plugins_url().'/expire-tags/',
              'delete_confirm'   => $delete_message
         ));
     wp_enqueue_script( 'expirejs' );
@@ -42,7 +42,7 @@ function expiretags_init() {
 }
 
 function expiretags_menu() {
-    add_options_page( 'Options', __('Expire tags'), 'manage_options', 'expiretags_options', 'expiretags_options' );
+    add_options_page( 'Options', __('Expire tags','expire-tags'), 'manage_options', 'expiretags_options', 'expiretags_options' );
 }
 
 
@@ -103,9 +103,9 @@ function expiretags_options() {
                 $expiration = $expirations[0]->expiration_datetime;
             }
 
-            echo('<tr><td>'.$post->name.'</td><td class="expire-tags-calendar"><input type="text" class="datepicker" id='.$post->term_id.' name='.$post->term_id.' value='.$expiration.'></td><td><input type="submit" class="expire-btn" value="" data-name = "'.$post->name.'" data-id="' . $post->term_id . '"></td></tr>');
+            echo('<tr><td>'.$post->name.'</td><td class="expire-tags-calendar"><input type="text" class="datepicker" id='.$post->term_id.' name='.$post->term_id.' value='.$expiration.'></td><td><input type="button" class="expire-btn" value="" data-name="'.$post->name.'" data-id="' . $post->term_id . '"></td></tr>');
         }
-        echo '<tr><td><input name="submit" id="submit" class="button button-primary" value="'.__('Save Changes','expire-tags').'"" type="submit"></td></tr>';
+        echo '<tr><td><input name="submit" id="submit" class="button button-primary" value="'.__('Save changes','expire-tags').'"" type="submit"></td></tr>';
         echo '</form>';
 
     } else {
@@ -115,8 +115,8 @@ function expiretags_options() {
     $paginate_links = paginate_links( array(
         'base'              => add_query_arg( 'cpage', '%#%' ),
         'format'            => '',
-        'prev_text'         => __('« Previous'),
-        'next_text'         => __('Next »'),
+        'prev_text'         => '« '. __('Previous', 'expire-tags'),
+        'next_text'         => __('Next', 'expire-tags').' »',
         'total'             => ceil($total / $items_per_page),
         'current'           => $page,
         'type'              => 'array'

@@ -8,15 +8,19 @@ jQuery(document).ready(function(){
             minDate: 1
         });
 
-        jQuery('.expire-btn').click(function(){
-        	tagID = jQuery(this).attr("data-id");
-        	tagName = jQuery(this).attr("data-name");
+        jQuery('.expire-btn').on('click', function(e) {
+            e.stopImmediatePropagation();
+        	tagID      = jQuery(this).attr("data-id");
+        	tagName    = jQuery(this).attr("data-name");
 
         	if (confirm(ET.delete_confirm)) {
-	           jQuery("#" + tagID ).val('1970-01-01');
-	           jQuery("#expiretags").submit();
-        	} else {
-       		   return false;
+	           jQuery("#" + tagID )
+                   .val('1970-01-01')
+                   .css('color', 'white');
+               jQuery("#submit").click();
+            } else {
+            return false;
             }
         });
+
 });
