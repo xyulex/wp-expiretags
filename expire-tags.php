@@ -7,12 +7,43 @@ Author:      xyulex
 Author URI:  https://profiles.wordpress.org/xyulex/
 Description: Expire tags allows you to add a date to a tag to expire it.  When the date is reached the tag is no longer associated with the post, but the tag is not removed and the post is not deleted. 
 This could be used to display a custom query by tag of important issues or upcoming events.
-Version: 1.0
+Version: 1.1
 License:     GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 */
 
 defined( 'ABSPATH' ) or die( 'No direct access permitted!' );
+
+// Create a helper function for easy SDK access.
+function et_fs() {
+    global $et_fs;
+
+    if ( ! isset( $et_fs ) ) {
+        // Include Freemius SDK.
+        require_once dirname(__FILE__) . '/freemius/start.php';
+
+        $et_fs = fs_dynamic_init( array(
+            'id'                => '249',
+            'slug'              => 'expire-tags',
+            'public_key'        => 'pk_53e85f2d7ace61b16dac9a54d13ea',
+            'is_premium'        => false,
+            'has_addons'        => false,
+            'has_paid_plans'    => false,
+            'menu'              => array(
+                'slug'       => 'expire-tags',
+                'first-path' => 'plugins.php',
+                'account'    => false,
+                'contact'    => false,
+                'support'    => false,
+            ),
+        ) );
+    }
+
+    return $et_fs;
+}
+
+// Init Freemius.
+et_fs();
 
 register_activation_hook( __FILE__, 'expiretags_install' );
 

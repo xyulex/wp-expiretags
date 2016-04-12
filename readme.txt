@@ -1,8 +1,8 @@
 === Expire tags ===
-Contributors: xyulex
-Tags: easy,expire,expiration,expirate,tag,tags,plugin,post,etiqueta,etiquetas
+Contributors: xyulex, freemius
+Tags: easy,expire,expiry,expiration,expirate,tag,tags,plugin,post,etiqueta,caducidad,caducar,widget,etiqueta,etiquetas
 Requires at least: 3.0
-Stable tag: 1.0
+Stable tag: 1.1
 Tested up to: 4.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -37,6 +37,11 @@ Make tags expire on a certain date.
 1. General view with the two available icons (Assign expiration date - Delete expiration date)
 
 == Changelog ==
+= 1.1 =
+Release date: March 15, 2016.
+* Added WordPress 4.5 support.
+* Insights added.
+
 = 1.0 =
 Release date: March 15, 2016.
 * Added i18n
