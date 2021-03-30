@@ -53,7 +53,7 @@ add_action( 'init', 'expiretags_init' );
 
 // Cronable
 if ( ! wp_next_scheduled( 'expiretags_checkexpirations' ) ) {
-  wp_schedule_event( time(), 'hourly', 'expiretags_check' );
+  wp_schedule_event( time(), 'hourly', 'expiretags_checkexpirations' );
 }
 
 add_action( 'expiretags_check', 'expiretags_expire' );
